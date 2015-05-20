@@ -1,0 +1,22 @@
+[
+    {
+        "securelist": "^Customers..*",
+        "roles": "",
+        "permissions": "CUSTOMERS_VIEW,CUSTOMERS_EDIT,CUSTOMERS_DELETE",
+        "whitelist": "",
+        "redirect": "security.unauthorized",
+        "order": "1",
+        "match": "event",
+        "useSSL": false
+    },
+    {
+        "securelist": "..*",
+        "roles": "",
+        "permissions": "",
+        "whitelist": "^security\\.,^main\\.,^API.v1.security\\.,general.index,relax.*",
+        "redirect": "security.unauthorized",
+        "order": "2",
+        "match": "event",
+        "useSSL": false
+    }
+]

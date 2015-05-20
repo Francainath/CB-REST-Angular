@@ -1,0 +1,116 @@
+<div class="page-header">
+	<h2>Users <small>List</small></h2>
+</div>
+
+<fieldset class="filters" ng-hide="userAddEdit == true">
+	<!-- New role button/form -->
+	<div ng-show="checkPermission('USER_ADD/EDIT')">
+		<div class="control-group">
+			<div class="controls">
+				<a class="btn btn-mini" ng-click="manageUser(0)" rel="tooltip" title="Add user"><i class="icon-plus icon-black"></i> <strong>User</strong></a>
+			</div>
+		</div>
+	</div>
+
+	<!-- Search Box -->
+	<div class="pull-right">
+		<div class="control-group">
+			<label class="control-label">Search:</label>
+			<div class="controls">
+				<input type="text" ng-model="filterOptions.filterText" />
+			</div>
+		</div>
+	</div>
+</fieldset>
+<fieldset class="forms" ng-if="userAddEdit == true">
+	<form name="userForm" id="userForm">
+		<input type="hidden" name="userID" value="{{user.userID}}">
+		<!-- row1 -->
+		<div class="row-fluid">
+			<!-- row1 -->
+			<div class="row-fluid">
+				<div class="span3">
+					<div class="control-group">
+						<label class="control-label" for="firstName">First Name</label>
+						<div class="controls">
+							<input type="text" name="firstName" label="First Name" class="required span12" ng-model="user.firstName" ng-maxlength="30" ng-pattern="/^((Mc|O\'|Mac|De|Le)?[A-Z]{1}[A-Za-z \-'_]+(\s)?)+$/" required>
+							<span class="error" ng-show="userForm.firstName.$error.maxlength"><br>Shorten it up a bit there, buddy!</span>
+							<span class="error" ng-show="userForm.firstName.$error.pattern && showErrors == true"><br>No numbers in names please</span>
+						</div>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="control-group">
+						<label class="control-label" for="lastName">Last Name</label>
+						<div class="controls">
+							<input type="text" name="lastName" label="Last Name" class="required span12" ng-model="user.lastName" ng-maxlength="30" ng-pattern="/^((Mc|O\'|Mac|De|Le)?[A-Z]{1}[A-Za-z \-'_]+(\s)?)+$/" required>
+							<span class="error" ng-show="userForm.lastName.$error.maxlength"><br>Shorten it up a bit there, buddy!</span>
+							<span class="error" ng-show="userForm.lastName.$error.pattern && showErrors == true"><br>No numbers in names please</span>
+						</div>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="control-group">
+						<label class="control-label" for="isActive">User is active</label>
+						<div class="controls">
+							<input type="checkbox" name="isActive" title="un-check this to deactivate this User" ng-model="user.isActive">
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- row2 -->
+			<div class="row-fluid">
+				<div class="span3">
+					<div class="control-group">
+						<label class="control-label" for="email">Email</label>
+						<div class="controls">
+							<input type="email" name="email" label="Email" class="required span12" ng-model="user.email" required>
+						</div>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="control-group">
+						<label class="control-label" for="roles">Role</label>
+						<div class="controls">
+							<select name="role" class="required span12" ng-model="selectedRole" ng-options="k as v for (k,v) in roles" required>
+								<option value="">-- Choose Role --</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="control-group">
+						<label class="control-label" for="username">Username</label>
+						<div class="controls">
+							<input type="text" name="username" label="Username" class="required span12" ng-model="user.username" ng-maxlength="30" required>
+							<span class="error" ng-show="userForm.username.$error.maxlength"><br>Shorten it up a bit there, buddy!</span>
+						</div>
+					</div>
+				</div>
+				<div class="span3" ng-if="user.userID == 0 ? true : false">
+					<div class="control-group">
+						<label class="control-label" for="password">Password</label>
+						<div class="controls">
+							<input type="password" name="password" label="Password" class="required span12" ng-model="user.password" ng-maxlength="30" ng-minlength="4" required>
+							<span class="error" ng-show="userForm.password.$error.maxlength"><br>Shorten it up a bit there, buddy!</span>
+							<span class="error" ng-show="userForm.password.$error.minlength"><br>Needs to be a bit longer!</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<div class="controls">
+				<button ng-click="saveUser(0)" class="btn btn-info" ng-hide="!userForm.$valid">Save</button>
+				<button ng-click="showErrors = true" class="btn btn-warning" ng-show="!userForm.$valid">Save</button>
+				<button ng-click="saveUser(1)" class="btn btn-info" ng-hide="!userForm.$valid">Save & New</button>
+				<button ng-click="" class="btn btn-warning" ng-show="!userForm.$valid">Save & New</button>
+				<button ng-click="resetMiniForm(0)" class="btn pull-right">Cancel</button>
+			</div>
+		</div>
+	</form>
+</fieldset>
+
+<div ng-if="gettingUsers" class="loading-blur"><div class="spinner"></div></div>
+<div class="gridStyle" ng-grid="userGrid"><!-- this is where the userGrid info lives --></div>

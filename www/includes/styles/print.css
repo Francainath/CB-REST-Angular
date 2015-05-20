@@ -1,0 +1,33 @@
+body {
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+	background-image: none;
+}
+
+.navbar {
+	display: none;
+}
+
+footer {
+	display: none;
+}
+
+/*----------------------------------------------------------------------*/
+/* Reports
+/*----------------------------------------------------------------------*/
+.reports .footer {
+	display: block;
+}
+
+/*----------------------------------------------------------------------*/
+/* Labels
+/*----------------------------------------------------------------------*/
+.mailing-labels {
+	margin-top: 0;
+}
+
+.mailing-labels .mailing-labels-label {
+	border: none;
+	background-color: none;
+	margin-top: 0;
+}

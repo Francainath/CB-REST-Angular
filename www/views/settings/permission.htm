@@ -1,0 +1,47 @@
+<div class="page-header">
+	<h2>Permission <small>List</small></h2>
+</div>
+
+<fieldset class="filters">
+	<!-- New permission button/form -->
+	<div ng-show="checkPermission('PERMISSION_ADD/EDIT')">
+		<div class="control-group">
+			<div class="controls">
+				<a class="btn btn-mini" ng-click="managePermission(0)" ng-hide="newpermission == true" rel="tooltip" title="Add Permission"><i class="icon-plus icon-black"></i> <strong>Permission</strong></a>
+			</div>
+		</div>
+
+		<form name="permissionForm" id="permissionForm" class="quick-add-form" ng-if="newpermission == true">
+			<input type="hidden" name="permissionID", value="{{permission.permissionID}}">
+
+			<div class="control-group">
+				<label class="control-label">Permission:</label>
+				<div class="controls">
+					<input type="text" name="permission" class="required" ng-model="permission.permission" ng-maxlength="20" required>
+					<div class="error" ng-show="permissionForm.permission.$error.maxlength">I think we can keep that permission shorter...</div>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<div class="controls">
+					<button ng-click="save()" class="btn btn-mini btn-info" ng-hide="!permissionForm.$valid">Save</button>
+					<button ng-click="" class="btn btn-mini btn-warning" ng-show="!permissionForm.$valid">Save</button>
+					<button ng-click="resetMiniForm()" class="btn btn-mini">Cancel</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<!-- Search Box -->
+	<div class="pull-right">
+		<div class="control-group">
+			<label class="control-label">Search:</label>
+			<div class="controls">
+				<input type="text" ng-model="filterOptions.filterText" />
+			</div>
+		</div>
+	</div>
+</fieldset>
+
+<div ng-if="gettingPermissions" class="loading-blur"><div class="spinner"></div></div>
+<div class="gridStyle" ng-grid="permissionsGrid"><!-- this is where the permissionsGrid info lives --></div>

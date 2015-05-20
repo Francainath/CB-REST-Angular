@@ -1,0 +1,16 @@
+{
+    "dependencies":{
+        "coldbox-be":"4.2.0",
+        "cbstorages":"1.0.0",
+        "cborm":"1.0.3",
+        "relax":"2.0.1",
+        "cbsecurity":"1.0.2"
+    },
+    "installPaths":{
+        "coldbox-be":"coldbox",
+        "cbstorages":"modules/cbstorages",
+        "cborm":"modules/cborm",
+        "relax":"modules/relax",
+        "cbsecurity":"modules/cbsecurity"
+    }
+}

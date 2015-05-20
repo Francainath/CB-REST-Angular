@@ -1,0 +1,18 @@
+[
+    {
+        "FIRSTNAME": "Admininstator",
+        "USERNAME": "admin",
+        "EMAIL": "admin@compknowhow.com",
+        "ITOTALRECORDS": 2,
+        "LASTNAME": "",
+        "USERID": 1
+        },
+        {
+        "FIRSTNAME": "User",
+        "USERNAME": "user",
+        "EMAIL": "user@compknowhow.com",
+        "ITOTALRECORDS": 2,
+        "LASTNAME": "",
+        "USERID": 2
+    }
+]

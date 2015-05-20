@@ -1,0 +1,23 @@
+<div>
+	<div class="page-header">
+		<h2>Login</h2>
+	</div>
+
+	<div ng-show="doingLogin" class="loading-blur"><div class="spinner"></div></div>
+	<form id="form" class="well" method="POST" name="loginForm" ckh-form-submit-enter>
+		<div class="control-group">
+			<label class="control-label" for="username">Username</label>
+			<div class="controls">
+				<input type="text" name="username" id="username" class="required" ng-model="credentials.username" autofocus required>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="password">Password</label>
+			<div class="controls">
+				<input type="password" name="password" id="password" class="required" ng-model="credentials.password" required>
+			</div>
+		</div>
+		<button ng-click="" ng-show="!loginForm.$valid" class="btn btn-warning">Login</button>
+		<button id="login" ng-click="login()" ng-hide="!loginForm.$valid" class="btn btn-primary">Login</button> <a ng-click="doForgotPassword()" class="forgot-password">forgot password?</a>
+	</form>
+</div>

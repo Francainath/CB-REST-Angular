@@ -1,0 +1,78 @@
+<div class="page-header">
+	<h2>Roles <small>List</small></h2>
+</div>
+
+<fieldset class="filters" ng-hide="roleAddEdit==true">
+	<!-- New role button/form -->
+	<div ng-show="checkPermission('ROLE_ADD/EDIT')">
+		<div class="control-group">
+			<div class="controls">
+				<a class="btn btn-mini" ng-click="manageRole(0)" rel="tooltip" title="Add role"><i class="icon-plus icon-black"></i> <strong>Role</strong></a>
+			</div>
+		</div>
+	</div>
+
+	<!-- Search Box -->
+	<div class="pull-right">
+		<div class="control-group">
+			<label class="control-label">Search:</label>
+			<div class="controls">
+				<input type="text" ng-model="filterOptions.filterText" />
+			</div>
+		</div>
+	</div>
+</fieldset>
+<fieldset class="forms" ng-show="roleAddEdit == true">
+	<form name="roleForm" id="roleForm">
+		<input type="hidden" name="roleID" value="{{role.roleID}}">
+		<div class="row-fluid">
+			<div class="span6">
+				<div class="row-fluid">
+					<div class="span12">
+						<div class="control-group">
+							<label class="control-label" for="role">Role</label>
+							<div class="controls">
+								<input type="text" name="role" id="role" class="required span12" ng-model="role.role" required ckh-auto-focus>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row-fluid">
+					<div class="span12">
+						<div class="control-group">
+							<label class="control-label" for="description">Description</label>
+							<div class="controls">
+								<input type="text" name="description" class="span12" ng-model="role.description">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="span6">
+				<div class="span12" ng-show="showPermissions">
+					<div class="control-group">
+						<label for="permissions" class="control-label">Permissions</label>
+						<div class="controls">
+							<select name="permissions" id="permissions" class="span12" ng-model="selectedValues" ng-options="permission.PERMISSIONID as permission.PERMISSION for permission in permissions" multiple>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<div class="controls">
+				<button ng-click="saveRole(0)" class="btn btn-info" ng-hide="!roleForm.$valid">Save</button>
+				<button ng-click="" class="btn btn-warning" ng-show="!roleForm.$valid">Save</button>
+				<button ng-click="saveRole(1)" class="btn btn-info" ng-hide="!roleForm.$valid">Save & New</button>
+				<button ng-click="" class="btn btn-warning" ng-show="!roleForm.$valid">Save & New</button>
+				<button ng-click="resetMiniForm(0)" class="btn pull-right">Cancel</button>
+			</div>
+		</div>
+	</form>
+</fieldset>
+
+
+<div ng-if="gettingRoles" class="loading-blur"><div class="spinner"></div></div>
+<div class="gridStyle" ng-grid="roleGrid"><!-- this is where the roleGrid lives --></div>
