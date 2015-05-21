@@ -1,7 +1,7 @@
 /**
-* Installs ContentBox
+* Setup Users, Roles, and Permissions
 */
-component accessors="true"{
+component accessors="true" {
 
 	// DI
 	property name="userService"					inject="id:models.security.userService";
@@ -14,7 +14,7 @@ component accessors="true"{
 	/**
 	* Constructor
 	*/
-	InstallerService function init(){
+	InstallerService function init() {
 		permissions = {};
 		return this;
 	}
@@ -22,7 +22,7 @@ component accessors="true"{
 	/**
 	* Execute the installer
 	*/
-	function execute() transactional{
+	function execute() transactional {
 		var c = userService.count();
 		if (c == 0) {
 			// create roles
@@ -33,28 +33,34 @@ component accessors="true"{
 			createSecurityRules();
 			// Reload Security Rules
 			securityInterceptor.loadRules();
-
-
 		}
 	}
 
-	function createSecurityRules(){
+
+	function createSecurityRules() {
 		securityRuleService.resetRules();
 	}
+
 
 	/**
 	* Create permissions
 	*/
-	function createPermissions(){
+	function createPermissions() {
 		var perms = {
-			"SETTINGS_ADMIN" = "Access to the system settings",
 			"MAIN_DASHBOARD" = "Access to the main dashboard page",
-			"USER_ADMIN" = "Access to the users data input",
-			"REPORTS_ADMIN" = "Access to the reports"
+			"USER_VIEW" = "Access to view users",
+			"USER_ADD/EDIT" = "Access to add/edit users",
+			"USER_ADMIN" = "Access to delete users",
+			"ROLE_VIEW" = "Access to view roles",
+			"ROLE_ADD/EDIT" = "Access to add/edit roles",
+			"ROLE_ADMIN" = "Access to delete roles",
+			"PERMISSION_VIEW" = "Access to view permissions",
+			"PERMISSION_ADD/EDDIT" = "Access to add/edit permissions",
+			"PERMISSION_MANAGE" = "Access to delete permissions"
 		};
 
 		var allperms = [];
-		for(var key in perms){
+		for(var key in perms) {
 			var props = {permission=key, description=perms[key]};
 			permissions[ key ] = permissionService.new(properties=props);
 			arrayAppend(allPerms, permissions[ key ] );
@@ -63,34 +69,51 @@ component accessors="true"{
 	}
 
 	/**
-	* Create roles and return the admin
+	* Create roles and return
 	*/
-	function createRoles(){
+	function createRoles() {
 		// Create Permissions
 		createPermissions();
 
 		var results = {};
 
-		// Create Editor
-		var oRole = roleService.new(properties={role="datainput",description="A Data Input Role"});
+		// Create loser
+		var oRole = roleService.new(properties={role="loser",description="A Loser: can only see self & dashboard"});
 		// Add Editor Permissions
 		oRole.addPermission( permissions["MAIN_DASHBOARD"] );
 		roleService.save( oRole );
 
-		results.datainputRole = oRole;
+		results.loserRole = oRole;
 
-		// Create staff
-		var oRole = roleService.new(properties={role="staff",description="A Staff Role"});
+		// Create viewer
+		var oRole = roleService.new(properties={role="viewer",description="A Viewer: can see everything, but not edit or administrate"});
 		// Add Editor Permissions
-		oRole.addPermission( permissions["REPORTS_ADMIN"] );
 		oRole.addPermission( permissions["MAIN_DASHBOARD"] );
+		oRole.addPermission( permissions["USER_VIEW"] );
+		oRole.addPermission( permissions["ROLE_VIEW"] );
+		oRole.addPermission( permissions["PERMISSION_VIEW"] );
 
 		roleService.save( oRole );
 
-		results.staffinputRole = oRole;
+		results.viewerRole = oRole;
+
+		// Create editor
+		var oRole = roleService.new(properties={role="editor",description="An Editor: can add/edit all features, but not administrate"});
+		// Add Editor Permissions
+		oRole.addPermission( permissions["MAIN_DASHBOARD"] );
+		oRole.addPermission( permissions["USER_VIEW"] );
+		oRole.addPermission( permissions["USER_ADD/EDIT"] );
+		oRole.addPermission( permissions["ROLE_VIEW"] );
+		oRole.addPermission( permissions["ROLE_ADD/EDIT"] );
+		oRole.addPermission( permissions["PERMISSION_VIEW"] );
+		oRole.addPermission( permissions["PERMISSION_ADD/EDIT"] );
+
+		roleService.save( oRole );
+
+		results.editorRole = oRole;
 
 		// Create Admin
-		var oRole = roleService.new(properties={role="admin",description="A Administrator"});
+		var oRole = roleService.new(properties={role="admin",description="An Administrator: can do EVERYTHING"});
 		// Add All Permissions To Admin
 		for(var key in permissions){
 			oRole.addPermission( permissions[key] );
@@ -106,30 +129,31 @@ component accessors="true"{
 	* Create user
 	*/
 	function createUser(required roles){
-		var oUser = userService.new(properties=getAdminUserData());
+		var oUser = userService.new(properties=getWukongUserData());
 		oUser.setIsActive( true );
 		oUser.setRole( roles.adminRole );
 		userService.saveUser( oUser );
 
 		var oUser = userService.new(properties=getTeemoData());
 		oUser.setIsActive( true );
-		oUser.setRole( roles.datainputRole );
+		oUser.setRole( roles.loserRole );
 		userService.saveUser( oUser );
 
 		var oUser = userService.new(properties=getCaitlynData());
 		oUser.setIsActive( true );
-		oUser.setRole( roles.staffinputRole );
+		oUser.setRole( roles.viewerRole );
 		userService.saveUser( oUser );
 
 		var oUser = userService.new(properties=getTangoTwistedFateData());
 		oUser.setIsActive( true );
-		oUser.setRole( roles.datainputRole );
+		oUser.setRole( roles.editorRole );
 		userService.saveUser( oUser );
 
 		return oUser;
 	}
 
-	function getAdminUserData(){
+
+	function getWukongUserData() {
 		var results = {
 			firstname = "Wukong",
 			lastName = "MonkeyKing",
@@ -140,18 +164,20 @@ component accessors="true"{
 		return results;
 	}
 
-	function getTeemoData(){
+
+	function getTeemoData() {
 		var results = {
 			firstname = "Captian",
 			lastName = "Teemo",
-			email = "captian@teemo.com",
-			username = "user",
-			password = "user"
+			email = "captain@teemo.com",
+			username = "teemo",
+			password = "teemo"
 		};
 		return results;
 	}
 
-	function getCaitlynData(){
+
+	function getCaitlynData() {
 		var results = {
 			firstname = "Officer",
 			lastName = "Caitlyn",
@@ -162,7 +188,8 @@ component accessors="true"{
 		return results;
 	}
 
-	function getTangoTwistedFateData(){
+
+	function getTangoTwistedFateData
 		var results = {
 			firstname = "Tango",
 			lastName = "Twisted Fate",
@@ -172,5 +199,6 @@ component accessors="true"{
 		};
 		return results;
 	}
+
 
 }

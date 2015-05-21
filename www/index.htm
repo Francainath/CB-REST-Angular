@@ -49,7 +49,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</a>
-					<a class="brand" href="#/dashboard">CB-Rest-Angular</a>
+					<a class="brand" href="#/dashboard" ng-if="checkPermission('MAIN_DASHBOARD')">CB-Rest-Angular</a>
 					<div class="nav-collapse">
 						<ul class="nav">
 							<li ng-if="isLoggedIn()" class="divider-vertical"></li>
