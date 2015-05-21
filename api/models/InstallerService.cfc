@@ -189,7 +189,7 @@ component accessors="true" {
 	}
 
 
-	function getTangoTwistedFateData
+	function getTangoTwistedFateData() {
 		var results = {
 			firstname = "Tango",
 			lastName = "Twisted Fate",
