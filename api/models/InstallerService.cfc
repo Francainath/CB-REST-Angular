@@ -55,7 +55,7 @@ component accessors="true" {
 			"ROLE_ADD/EDIT" = "Access to add/edit roles",
 			"ROLE_ADMIN" = "Access to delete roles",
 			"PERMISSION_VIEW" = "Access to view permissions",
-			"PERMISSION_ADD/EDDIT" = "Access to add/edit permissions",
+			"PERMISSION_ADD/EDIT" = "Access to add/edit permissions",
 			"PERMISSION_MANAGE" = "Access to delete permissions"
 		};
 
