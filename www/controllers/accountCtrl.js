@@ -1,7 +1,7 @@
 (function() {
 	'use strict';
 
-	var app = angular.module('cbRestAccount', []);
+	var app = angular.module('cbRestAngular');
 
 	app.controller('accountEntryCtrl', ['$scope', '$modal', 'userService', 'flashService', 'authenticationService', accountEntryCtrl]);
 

@@ -1,7 +1,7 @@
 (function() {
 	'use strict';
 
-	var app = angular.module('cbRestUser', []);
+	var app = angular.module('cbRestAngular');
 
 	app.controller('userCtrl', function ($scope, $modal, userService, roleService, $timeout, flashService) {
 		roleService.getRoles().$promise.then(function (resp) {
